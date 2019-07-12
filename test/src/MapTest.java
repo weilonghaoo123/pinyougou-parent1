@@ -6,8 +6,11 @@ public class MapTest {
         map.put("id", 2);
         map.put("name", 2);
         Map map1 = new HashMap();
-        map1.put("id", 2);
-        map1.put("name", 2);
+        map1.put("id1", 3);
+        map1.put("name1", 4);
+        map.putAll(map1);
+        System.out.println(map);
+        System.out.println("---------------------");
 
 
         List<Map> mapList = new ArrayList<>();
