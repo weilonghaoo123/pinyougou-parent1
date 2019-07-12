@@ -30,6 +30,7 @@ public class MapTest {
         int w = list.indexOf("e");
         System.out.println(w);
         System.out.println("---------------------------");
+        System.out.println("---------------------------");
 
 
     }
