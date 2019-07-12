@@ -18,7 +18,7 @@ public class MapTest {
         mapList.add(map1);
         System.out.println(mapList);
         System.out.println("----------------");
-
+        System.out.println("---------------");
 
         List list = new ArrayList();
         list.add("w");
