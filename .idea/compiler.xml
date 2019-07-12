@@ -22,9 +22,10 @@
         <module name="pinyougou-solr-util" />
         <module name="spring-data-solr" />
         <module name="SpringDataRedis" />
-        <module name="wwwwwwwwwwwwwwwwww" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel target="8" />
+    <bytecodeTargetLevel target="8">
+      <module name="wwwwwwwwwwwwwwwwww" target="1.7" />
+    </bytecodeTargetLevel>
   </component>
 </project>
