@@ -18,6 +18,7 @@ import com.pinyougou.pojo.TbTypeTemplateExample.Criteria;
 import com.pinyougou.sellergoods.service.TypeTemplateService;
 
 import entity.PageResult;
+import org.springframework.data.redis.core.RedisTemplate;
 
 /**
  * 服务实现层
@@ -26,7 +27,8 @@ import entity.PageResult;
  */
 @Service
 public class TypeTemplateServiceImpl implements TypeTemplateService {
-
+    @Autowired
+    private RedisTemplate redisTemplate;
     @Autowired
     private TbTypeTemplateMapper typeTemplateMapper;
     @Autowired
@@ -47,6 +49,7 @@ public class TypeTemplateServiceImpl implements TypeTemplateService {
     public PageResult findPage(int pageNum, int pageSize) {
         PageHelper.startPage(pageNum, pageSize);
         Page<TbTypeTemplate> page = (Page<TbTypeTemplate>) typeTemplateMapper.selectByExample(null);
+
         return new PageResult(page.getTotal(), page.getResult());
     }
 
@@ -113,6 +116,8 @@ public class TypeTemplateServiceImpl implements TypeTemplateService {
         }
 
         Page<TbTypeTemplate> page = (Page<TbTypeTemplate>) typeTemplateMapper.selectByExample(example);
+        saveToRedis();//存入数据到缓存,这样在增删改后会自动调用该方法
+        System.out.println("更新缓存:typeTemple");
         return new PageResult(page.getTotal(), page.getResult());
     }
 
@@ -135,5 +140,25 @@ public class TypeTemplateServiceImpl implements TypeTemplateService {
         }
 
         return list;
+    }
+
+    /**
+     * 将数据存入缓存
+     */
+    private void saveToRedis() {
+        //获取模板数据
+        List<TbTypeTemplate> typeTemplates = findAll();
+        //循环模板
+        for (TbTypeTemplate typeTemplate : typeTemplates) {
+            //存储品牌列表
+            List<Map> brandList = JSON.parseArray(typeTemplate.getBrandIds(), Map.class);
+            redisTemplate.boundHashOps("brandList").put(typeTemplate.getId(), brandList);
+
+            //存储规格列表
+            List<Map> specList = findSpecList(typeTemplate.getId());//根据模板 ID 查询规格列表
+
+            redisTemplate.boundHashOps("specList").put(typeTemplate.getId(), specList);
+
+        }
     }
 }

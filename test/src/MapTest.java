@@ -6,10 +6,12 @@ public class MapTest {
         map.put("id", 2);
         map.put("name", 2);
         Map map1 = new HashMap();
-        map1.put("id1", 3);
-        map1.put("name1", 4);
-        map.putAll(map1);
-        System.out.println(map);
+        map1.put("id", 2);
+        map1.put("name", 2);
+        List<Map> list = new ArrayList<>();
+        list.add(map);
+        list.add(map1);
+        System.out.println(list);
         System.out.println("---------------------");
 
 
@@ -20,13 +22,6 @@ public class MapTest {
         System.out.println("----------------");
         System.out.println("---------------");
         System.out.println("---------------");
-
-        List list = new ArrayList();
-        list.add("w");
-        list.add("l");
-        list.add("m");
-        list.add("e");
-        list.add("r");
         int w = list.indexOf("e");
         System.out.println(w);
         System.out.println("---------------------------");
