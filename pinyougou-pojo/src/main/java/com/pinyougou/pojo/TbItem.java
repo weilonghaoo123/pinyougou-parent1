@@ -8,12 +8,12 @@ import java.util.Map;
 import org.apache.solr.client.solrj.beans.Field;
 import org.springframework.data.solr.core.mapping.Dynamic;
 
-public class TbItem implements Serializable{
-	
-	@Field
+public class TbItem implements Serializable {
+
+    @Field
     private Long id;
 
-	@Field("item_title")
+    @Field("item_title")
     private String title;
 
     private String sellPoint;
@@ -35,7 +35,7 @@ public class TbItem implements Serializable{
     private String status;
 
     private Date createTime;
-
+    @Field("item_updatetime")
     private Date updateTime;
 
     private String itemSn;
@@ -63,22 +63,21 @@ public class TbItem implements Serializable{
 
     @Field("item_seller")
     private String seller;
-    
+
     @Dynamic
     @Field("item_spec_*")
-    private Map<String,String> specMap;
-    
+    private Map<String, String> specMap;
+
     public Map<String, String> getSpecMap() {
-		return specMap;
-	}
+        return specMap;
+    }
 
-	public void setSpecMap(Map<String, String> specMap) {
-		this.specMap = specMap;
-	}
-	
-	
+    public void setSpecMap(Map<String, String> specMap) {
+        this.specMap = specMap;
+    }
 
-	public Long getId() {
+
+    public Long getId() {
         return id;
     }
 
