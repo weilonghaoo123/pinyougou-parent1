@@ -10,15 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.solr.core.SolrTemplate;
-import org.springframework.data.solr.core.query.Criteria;
-import org.springframework.data.solr.core.query.FilterQuery;
-import org.springframework.data.solr.core.query.GroupOptions;
-import org.springframework.data.solr.core.query.HighlightOptions;
-import org.springframework.data.solr.core.query.HighlightQuery;
-import org.springframework.data.solr.core.query.Query;
-import org.springframework.data.solr.core.query.SimpleFilterQuery;
-import org.springframework.data.solr.core.query.SimpleHighlightQuery;
-import org.springframework.data.solr.core.query.SimpleQuery;
+import org.springframework.data.solr.core.query.*;
 import org.springframework.data.solr.core.query.result.GroupEntry;
 import org.springframework.data.solr.core.query.result.GroupPage;
 import org.springframework.data.solr.core.query.result.GroupResult;
@@ -36,7 +28,7 @@ public class ItemSearchServiceImpl implements ItemSearchService {
     private SolrTemplate solrTemplate;
 
     @Override
-    public Map search(Map searchMap) {
+    public Map<String, Object> search(Map searchMap) {
         //关键字空格处理
         String keywords = (String) searchMap.get("keywords");
 
@@ -62,6 +54,26 @@ public class ItemSearchServiceImpl implements ItemSearchService {
 
         return map;
     }
+
+
+    @Override
+    public void importList(List list) {
+        solrTemplate.saveBeans(list);
+        solrTemplate.commit();
+
+    }
+
+    @Override
+    public void deleteByGoodsId(List goodsIdList) {
+        System.out.println("删除商品 ID" + goodsIdList);
+        Query query = new SimpleQuery();
+        Criteria criteria = new Criteria("item_goodsid").in(goodsIdList);
+        query.addCriteria(criteria);
+        solrTemplate.delete(query);
+        solrTemplate.commit();
+
+    }
+
 
     //查询列表
     private Map searchList(Map searchMap) {

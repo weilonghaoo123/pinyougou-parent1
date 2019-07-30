@@ -11,6 +11,7 @@
 
     <artifactId>pinyougou-common</artifactId>
     <packaging>jar</packaging>
+
     <dependencies>
         <!-- 文件上传组件 -->
         <dependency>
@@ -21,6 +22,8 @@
             <groupId>commons-fileupload</groupId>
             <artifactId>commons-fileupload</artifactId>
         </dependency>
+
+        <!-- 缓存 -->
         <dependency>
             <groupId>redis.clients</groupId>
             <artifactId>jedis</artifactId>
@@ -29,8 +32,15 @@
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-redis</artifactId>
         </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
 
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+        </dependency>
     </dependencies>
-
-
 </project>

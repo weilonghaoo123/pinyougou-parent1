@@ -1,5 +1,6 @@
 package com.pinyougou.sellergoods.service.impl;
 
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +39,7 @@ public class GoodsServiceImpl implements GoodsService {
      */
     @Override
     public List<TbGoods> findAll() {
+
         return goodsMapper.selectByExample(null);
     }
 
@@ -147,6 +149,16 @@ public class GoodsServiceImpl implements GoodsService {
         goodsMapper.updateByPrimaryKey(goods);
     }
 
+
+    public void updateStatus(Long[] ids, String status) {
+
+        for (Long id : ids) {
+            TbGoods tbGoods = goodsMapper.selectByPrimaryKey(id);
+            tbGoods.setAuditStatus(status);
+            goodsMapper.updateByPrimaryKey(tbGoods);
+        }
+    }
+
     /**
      * 根据ID获取实体
      *
@@ -163,7 +175,6 @@ public class GoodsServiceImpl implements GoodsService {
         goods.setGoodsDesc(tbGoodsDesc);
         return goods;
     }
-
 
 
     /**
@@ -215,6 +226,15 @@ public class GoodsServiceImpl implements GoodsService {
 
         Page<TbGoods> page = (Page<TbGoods>) goodsMapper.selectByExample(example);
         return new PageResult(page.getTotal(), page.getResult());
+    }
+
+    @Override
+    public List<TbItem> findItemListByGoodsIdandStatus(Long[] goodsIds, String status) {
+        TbItemExample example = new TbItemExample();
+        com.pinyougou.pojo.TbItemExample.Criteria criteria = example.createCriteria();
+        criteria.andGoodsIdIn(Arrays.asList(goodsIds));//where goodsIds in (xxxx)
+        criteria.andStatusEqualTo(status); //and status = xxx;
+        return itemMapper.selectByExample(example);
     }
 
 }
